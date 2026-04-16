@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mensagem Especial</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    }
+
+    .container {
+      width: 90%;
+      max-width: 400px;
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .frase {
+      font-size: 18px;
+      color: #333;
+      min-height: 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.6s ease;
+    }
+
+    .frase-texto {
+      margin: 0;
+      line-height: 1.45;
+    }
+
+    .foto-memoria {
+      display: block;
+      width: 100%;
+      max-width: 280px;
+      height: auto;
+      border-radius: 16px;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+      object-fit: cover;
+      border: 3px solid #fff;
+    }
+
+    .frase.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 10px;
+      background: #ff6b81;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #ff4757;
+      transform: scale(1.05);
+    }
+
+    .coracao-final {
+      display: none;
+      margin-top: 20px;
+      font-size: 2.75rem;
+      line-height: 1;
+      user-select: none;
+    }
+
+    .coracao-final.visivel {
+      display: block;
+    }
+
+    @media (max-width: 480px) {
+      .frase {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div id="frase" class="frase active"></div>
+  <button id="btn-proximo" type="button" onclick="proximaFrase()">Próximo ❤️</button>
+  <div id="coracao-final" class="coracao-final" aria-hidden="true">❤️</div>
+</div>
+
+<script>
+  const frases = [
+    "Eu sei que a gente se conhece há pouco tempo...",
+    "Mas mesmo assim, eu venho observando cada detalhezinho seu... incluindo seus defeitinhos rs",
+    "E sendo sincero, você tem tudo pra ser especial pra mim.",
+    "Hoje eu tô em um momento da vida em que eu queria algo de verdade, algo leve, mas duradouro. E pra ser sincero, eu tava até com uma certa preguiça de conhecer alguém novo, começar tudo de novo… mas com você é diferente.",
+    "Com você, tudo aconteceu de um jeitinho leve e natural... Eu não forcei nada, quase não toquei em você, e mesmo assim você me enxergou como um “possível namorado”. E foi isso que me fez sentir que vale a pena investir em você.",
+    "E isso me fez querer tentar, de verdade.",
+    "Eu quero te conquistar todos os dias... Nos pequenos detalhes, sem pressa... se você continuar me dando abertura pra isso rs",
+    "Mas não é só isso, tem detalhes que me pegaram muito, eu gosto do seu jeito, da sua voz, desse seu sotaque gostoso de ouvir quando fala “UAI” kkk… gosto da sua sinceridade.",
+    "Eu também sei, desde o começo, que sua prioridade sempre vai ser sua filha, e eu admiro muito isso, de verdade. Mesmo assim, eu tô disposto a entrar nessa com você, viver essa “loucura boa”, porque vejo em você um potencial enorme de ser uma mulher incrível, uma parceira pra vida.",
+    "Mas sem pressão nenhuma. Quero continuar sendo respeitoso com você, assim como você diz rs",
+    "Se você não estiver sentindo o mesmo, ou se simplesmente não for pra ser, eu vou respeitar de coraçãozinho tranquilo, e eu ainda vou querer você por perto como uma amiga ❤️. Porque você é uma pessoa muito especial, e eu não gostaria de me afastar de você por causa disso.",
+    "E antes que duvide, foi eu, o Walter mesmo que escreveu isso 😏. Estou mostrando um pouco da minha vulnerabilidade emocional (o que é muito ruim kkk), devido a isso, pra eu escrever coisas desse tipo de novo, só se você corresponder kkk",
+    "E tudo é de coração, com muito carinho, do jeito que você merece ser tratada 🫶🏻",
+    "E vai aqui a única fotinha que a gente tem rs"
+  ];
+
+  let index = 0;
+  const elemento = document.getElementById('frase');
+  const btnProximo = document.getElementById('btn-proximo');
+  const coracaoFinal = document.getElementById('coracao-final');
+
+  const fraseComFoto = 'E vai aqui a única fotinha que a gente tem rs';
+
+  function atualizarRodape() {
+    const ultimaComFoto = frases[index] === fraseComFoto;
+    btnProximo.hidden = ultimaComFoto;
+    coracaoFinal.classList.toggle('visivel', ultimaComFoto);
+    coracaoFinal.setAttribute('aria-hidden', ultimaComFoto ? 'false' : 'true');
+  }
+
+  function mostrarFrase() {
+    elemento.classList.remove('active');
+
+    setTimeout(() => {
+      if (frases[index] === fraseComFoto) {
+        elemento.innerHTML =
+          '<p class="frase-texto">' + fraseComFoto + '</p>' +
+          '<img class="foto-memoria" src="walter-lua.jpeg" alt="Uma fotinha nossa">';
+      } else {
+        elemento.textContent = frases[index];
+      }
+      atualizarRodape();
+      elemento.classList.add('active');
+    }, 300);
+  }
+
+  function proximaFrase() {
+    index++;
+    if (index >= frases.length) index = 0;
+    mostrarFrase();
+  }
+
+  // inicial
+  mostrarFrase();
+</script>
+
+</body>
+</html>
